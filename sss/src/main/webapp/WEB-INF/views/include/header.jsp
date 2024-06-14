@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko"xmlns:th="http://www.thymeleaf.org">
+	
+	<header th:fragment="header">
+				<!-- Page header starts -->
+			<div class="page-header">
+
+				<div class="toggle-sidebar" id="toggle-sidebar">
+					<i class="bi bi-list"></i>
+				</div>
+
+				<!-- Header actions ccontainer start -->
+				<div class="header-actions-container">
+
+					<!-- Search container start -->
+					<div class="search-container me-4 d-xl-block d-lg-none">
+
+						<!-- Search input group start -->
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Search" />
+							<button class="btn btn-outline-secondary" type="button">
+								<i class="bi bi-search"></i>
+							</button>
+						</div>
+						<!-- Search input group end -->
+
+					</div>
+					<!-- Search container end -->
+
+
+					<!-- Header profile start -->
+					<form>
+					<div class="header-profile d-flex align-items-center">
+						<div class="dropdown">
+							<a th:href="@{/admLogin}" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
+								<span class="user-name d-none d-md-block">[[${session.sessNameXdm}]]</span>
+								<span class="avatar">
+									<img src="/adm/template/gear/assets/images/user4.png" alt="Admin Templates" />
+									<span class="status online"></span>
+								</span>
+							</a>
+							<div class="dropdown-menu dropdown-menu-end" aria-labelledby="userSettings">
+								<div class="header-profile-actions">
+										<button type="button" id="buttonSignOut"><a th:href="@{/admLogin}">로그아웃</a></button>
+<!-- 									<button th:if="${session.sessSeqXdm == null}" type="button" id="buttonSignOut"><a th:href="@{/admLogin}">로그인</a></button> -->
+<!-- 									<button th:unless="${session.sessSeqXdm == null}" type="button" id="buttonSignOut">로그아웃</button> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					</form>
+					<!-- Header profile end -->
+
+				</div>
+				<!-- Header actions ccontainer end -->
+
+			</div>
+			<!-- Page header ends -->
+			
+			<script type="text/javascript">
+			
+			document.getElementById("buttonSignOut").onclick = function () {
+			$.ajax({
+				async: true 
+				,cache: false
+				,type: "post"
+				/* ,dataType:"json" */
+				,url: "/signoutAdm "
+				/* ,data : $("#formLogin").serialize() */
+				,data : { "memberID" : $("#memberID").val(), "memberPassword" : $("#memberPassword").val()}
+				,success: function(response) {
+					if(response.rt == "success") {
+						location.href = "/admLogin";
+					}  
+				}
+				,error : function(jqXHR, textStatus, errorThrown){
+					alert("ajaxUpdate " + jqXHR.textStatus + " : " + jqXHR.errorThrown);
+				}
+			});
+		}
+			
+		</script>
+		
+	</header>
+</html>
